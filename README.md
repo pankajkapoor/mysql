@@ -1,4 +1,4 @@
-# 1. Overview of SQL
+# Overview of SQL
 
 ```mysql
 -- 03 Selecting Rows
@@ -92,7 +92,7 @@ SHOW databases;
 SHOW tables;
 DESCRIBE item;
 ```
-# 2. Data Types 
+# Data Types 
 
 ```mysql
 -- 01 create table
@@ -211,7 +211,7 @@ SHOW CREATE TABLE test;
 DROP TABLE IF EXISTS test;
 ```
 
-# 3. Operators and Functions
+# Operators and Functions
 ```mysql
 -- 01 comparison operators
 
@@ -320,7 +320,7 @@ SELECT IF(b > 0, 'TRUE', 'FALSE') FROM booltest;
 DROP TABLE IF EXISTS booltest;
 ```
 
-# 4. String Functions
+# String Functions
 
 ```mysql
 -- 01 string comparisons
@@ -398,7 +398,7 @@ SELECT 'bill' SOUNDS LIKE 'boil', 'bill' SOUNDS LIKE 'phil';
 
 ```
 
-# 5. Mathematical Functions
+# Mathematical Functions
 
 ```mysql
 -- 01 value functions
@@ -457,7 +457,7 @@ SELECT RADIANS(180);
 
 ```
 
-# 6. Differences from Standard SQL
+# Differences from Standard SQL
 
 ```mysql
 -- 01 string concatenation
