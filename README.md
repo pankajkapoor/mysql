@@ -318,4 +318,191 @@ SELECT IF(a < 5, 'TRUE', 'FALSE') FROM booltest;
 SELECT IF(b > 0, 'TRUE', 'FALSE') FROM booltest;
 
 DROP TABLE IF EXISTS booltest;
+```
+
+# 4. String Functions
+
+```mysql
+-- 01 string comparisons
+
+USE world;
+SELECT Name FROM country WHERE Name LIKE '_a%' ORDER BY Name;
+SELECT Name FROM country WHERE STRCMP(Name, 'France') <= 0 ORDER BY Name;
+
+-- 02 regular expressions
+
+USE world;
+SELECT Name FROM country WHERE Name RLIKE 'y$' ORDER BY Name;
+SELECT Name FROM country WHERE Name RLIKE '[xz][ai]' ORDER BY Name;
+
+-- 03 string concatenation
+
+SELECT 'This ' || 'and ' || 'that';
+SELECT CONCAT('This ', 'and ', 'that');
+SELECT CONCAT('Love', ' ', 'is', ' ', 'all', ' ', 'you', ' ', 'need');
+SELECT CONCAT('one', 'two');
+SELECT CONCAT('string', 42);
+SELECT CONCAT(42, 42);
+
+-- 04 numeric conversions
+
+SELECT 32742;
+SELECT HEX(32742);
+SELECT OCT(32742);
+SELECT BIN(32742);
+
+SELECT CONV('32742',10,16);
+SELECT CONV('7FE6',16,10);
+SELECT CONV('28K6',24,10);
+
+-- 05 trimming and padding
+
+USE scratch;
+SELECT * FROM customer WHERE name LIKE '  Bill Smith  ';
+SELECT * FROM customer WHERE name LIKE TRIM('  Bill Smith  ');
+SELECT CONCAT(':', RTRIM('  Bill Smith  '), ':');
+SELECT CONCAT(':', LTRIM('  Bill Smith  '), ':');
+
+SELECT CONCAT(':', TRIM('x' FROM 'xxxBill Smithxxx'), ':');
+
+SELECT LPAD('Price', 20, '.');
+SELECT LPAD('Price', 20, '. ');
+SELECT RPAD('Price', 20, '. ');
+
+-- 06 case conversion
+
+USE scratch;
+SELECT UPPER(name) FROM customer;
+SELECT LOWER(name) FROM customer;
+SELECT CONCAT(UPPER(SUBSTRING(name, 1, 1)),LOWER(SUBSTRING(name, 2))) FROM customer;
+
+-- 07 substring
+
+SELECT SUBSTRING('this is a string', 6);
+SELECT SUBSTR('this is a string', 6);
+SELECT SUBSTR('this is a string', 6, 4);
+SELECT SUBSTR('this is a string', -6);
+SELECT SUBSTR('this is a string', -6, 4);
+
+SELECT SUBSTRING_INDEX('this is a string', ' ', 1);
+SELECT SUBSTRING_INDEX('this is a string', ' ', 2);
+SELECT SUBSTRING_INDEX('this is a string', ' ', -2);
+
+-- 08 soundex
+
+SELECT SOUNDEX('bill'), SOUNDEX('bell');
+SELECT SOUNDEX('acton'), SOUNDEX('action');
+SELECT SOUNDEX('acting'), SOUNDEX('action');
+
+SELECT 'bill' SOUNDS LIKE 'boil', 'bill' SOUNDS LIKE 'phil';
+
+```
+
+# 5. Mathematical Functions
+
+```mysql
+-- 01 value functions
+
+SELECT ABS(-47);
+SELECT ABS(-47.73);
+
+SELECT CEILING(12.2);
+SELECT CEIL(12.2);
+
+SELECT ROUND(17.5);
+SELECT ROUND(17.4);
+
+SELECT TRUNCATE(42.973, 1);
+SELECT TRUNCATE(42.973, 2);
+SELECT TRUNCATE(99942.973, -2);
+
+-- 02 math funcitons
+
+SELECT PI();
+SELECT PI() + 0.000000000000000;
+
+SELECT POWER(8, 2);
+SELECT POW(8, 2);
+
+SELECT SQRT(64);
+SELECT POWER(4096, 1/4);
+
+SELECT RAND();
+SELECT RAND(42);
+
+-- 03 trigonometry
+
+SELECT SIN(2);
+SELECT ASIN(.2);
+SELECT COS(PI());
+SELECT ACOS(.5);
+SELECT TAN(PI());
+SELECT ATAN(2);
+SELECT COT(12);
+
+-- 04 logarithms
+
+SELECT LN(2);
+SELECT LOG(2);
+SELECT LOG(10, 100);
+SELECT LOG(2, 65535);
+SELECT LOG2(65535);
+SELECT LOG10(100);
+SELECT EXP(1);
+
+-- 05 degrees and radians
+
+SELECT DEGREES(PI());
+SELECT RADIANS(180);
+
+```
+
+# 6. Differences from Standard SQL
+
+```mysql
+-- 01 string concatenation
+
+SELECT 'string1' || 'string2'; -- standard not mysql
+SELECT TRUE || FALSE;          -- non-standard mysql
+SELECT TRUE OR FALSE;
+SELECT CONCAT('string1', 'string2');
+
+-- 02 quote marks
+SELECT 'this is a string';
+SELECT "this is a string";
+
+USE scratch;
+SELECT "name", "address" FROM customer;
+SELECT `name`, `address` FROM customer;
+
+-- 03 the modulo operator
+
+SELECT 47 / 3;
+SELECT DIV(47,3);       -- standard not mysql
+SELECT MOD(47,3);
+SELECT 47 MOD 3;        -- non-standard operator
+SELECT 47 % 3;          -- non-standard operator
+
+-- 04 comments
+
+--SQL standard comment
+-- SQL standard comment
+
+# non-standard MySQL comment
+#non-standard MySQL comment
+
+/*
+    SQL standard 
+    multi-line comment
+*/
+
+/*!
+    SELECT 'MySQL executable comment' AS `Say what?!`
+*/ ;
+
+SELECT 1 /*! + 2 */ ;
+
+```
+
+
 
