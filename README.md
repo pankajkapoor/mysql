@@ -1077,3 +1077,63 @@ DROP TABLE IF EXISTS widgetCustomer;
 
 
 ```
+
+# Inserting & Updating Data Using Queries
+```mysql
+CREATE TABLE tempcustomer AS 
+  SELECT first_name, 
+         last_name 
+  FROM   externalcustomer AS c 
+  WHERE  c.create_date >= ‘8 / 1 / 2015
+  
+
+CREATE TABLE tempcustomer AS 
+  SELECT c.first_name, 
+         c.last_name, 
+         a.address 
+  FROM   externalcustomer AS c 
+         inner join externaladdress AS a 
+                 ON c.customer_id = a.customer_id 
+  WHERE  c.create_date >= ‘8 / 1 / 2015
+  
+  
+UPDATE customer AS c 
+       LEFT JOIN tempcustomer AS tc 
+              ON c.customer_id = tc.customer_id 
+SET    c.first_name = tc.first_name, 
+       c.last_name = tc.last_name, 
+       c.address = tc.address 
+WHERE  c.customer_id > 5; 
+
+
+UPDATE customer 
+SET    first_name = (SELECT first_name 
+                     FROM   tempcustomer 
+                     WHERE  tempcustomer.customer_id = customer.customer_id); 
+
+```  
+
+# Importing/Exporting Data from a CSV File
+
+| customer_id | first_name | last_name | address           |
+|-------------|------------|-----------|-------------------|
+| 5           | Jennifer   | Smith     | 111 Comman        |
+| 6           | Paul       | Smith     | Note Street       |
+| 7           | Andrew     | Johnson   | Uncommon Location |
+
+
+```mysql
+LOAD data INFILE 'c:/customer/customer.csv' 
+INTO TABLE customer 
+fields TERMINATED BY ',' 
+ENCLOSED BY '"' 
+LINES TERMINATED BY '\n' 
+IGNORE 1 rows;
+
+SELECT customer_id, 
+       first_name, 
+       last_name 
+FROM   customer 
+WHERE  create_date >= ‘8/1/2015' INTO OUTFILE 'C:/customers/customers.csv' FIELDS ENCLOSED BY '"' ESCAPED BY '"' LINES TERMINATED BY ';
+
+```
