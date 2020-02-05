@@ -15,6 +15,11 @@ SELECT * FROM Country ORDER BY Name LIMIT 5;
 SELECT * FROM Country ORDER BY Name LIMIT 5, 5;
 SELECT * FROM Country ORDER BY Name LIMIT 10, 5;
 
+-- CASTING
+SELECT Cast(countycode AS CHAR) 
+FROM   pop 
+ORDER  BY Cast(countycode AS CHAR) DESC; 
+
 -- 04 Selecting Columns
 
 USE world;
@@ -84,6 +89,47 @@ SELECT a.artist AS Artist, a.title AS Album, t.track_number AS 'Track Num',
   FROM album AS a
   JOIN track AS t ON a.id = t.album_id
   ORDER BY a.artist, a.title, t.track_number;
+
+SELECT id, 
+       t2.id AS s 
+FROM   t1 
+       INNER JOIN t2 using (id) 
+
+SELECT * 
+FROM   t1, 
+       t2 
+WHERE  t1.id = t2.id; 
+
+-- INTERSECT
+SELECT DISTINCT 
+   id 
+FROM t1
+   INNER JOIN t2 USING(id);
+   
+-- UNION & UNION ALL
+SELECT id 
+FROM   t1 
+UNION 
+SELECT id 
+FROM   t2; 
+
+SELECT id 
+FROM   t1 
+UNION ALL 
+SELECT id 
+FROM   t2; 
+
+-- if you use the UNION ALL explicitly, the duplicate rows, if available, remain in the result. Because UNION ALL does not need to handle duplicates, it performs faster than UNION DISTINCT .
+
+-- MINUS
+SELECT 
+    id
+FROM
+    t1
+LEFT JOIN
+    t2 USING (id)
+WHERE
+    t2.id IS NULL;
 
 -- 10 Finding databases, tables, and columns
 
