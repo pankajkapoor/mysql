@@ -1,6 +1,7 @@
 # Overview of SQL
 
 ```mysql
+-- http://webdev.slides.com/coltsteele/mysql-99-101#/134
 -- 03 Selecting Rows
 
 USE world;
