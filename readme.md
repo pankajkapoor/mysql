@@ -15,6 +15,7 @@ SELECT COUNT(*) FROM Country;
 SELECT * FROM Country ORDER BY Name LIMIT 5;
 SELECT * FROM Country ORDER BY Name LIMIT 5, 5;
 SELECT * FROM Country ORDER BY Name LIMIT 10, 5;
+SELECT title,author_fname,author_lname FROM `books` ORDER BY author_fname,author_lname DESC;
 SELECT title,author_fname,author_lname FROM `books` ORDER BY 2;
 SELECT title,author_fname,author_lname FROM `books` ORDER BY 2 DESC;
 
