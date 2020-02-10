@@ -106,6 +106,16 @@ FROM   t1,
        t2 
 WHERE  t1.id = t2.id; 
 
+
+SELECT * FROM orders o NATURAL JOIN customers c;
+
+-- composite primary key
+
+SELECT * FROM order_items oi
+ JOIN order_item_notes oin
+ ON oi.order_id = oin.order_id
+ AND oi.product_id = oin.product_id;
+
 -- INTERSECT
 SELECT DISTINCT 
    id 
@@ -1188,4 +1198,23 @@ SELECT customer_id,
 FROM   customer 
 WHERE  create_date >= ‘8/1/2015' INTO OUTFILE 'C:/customers/customers.csv' FIELDS ENCLOSED BY '"' ESCAPED BY '"' LINES TERMINATED BY ';
 
+```
+
+# Pivot Table Query
+
+```mysql
+USE balances;
+SET SESSION group_concat_max_len = 1000000;
+SET @sql = null;
+select GROUP_CONCAT(
+        DISTINCT CONCAT('SUM(if(currency_code=','''',currency_code,''',available,',0,')) BOKA_', currency_code)
+    )  
+  INTO @sql from balances;
+
+
+SET @sql =  CONCAT('SELECT account_id, ',@sql, ' from balances group by account_id limit 100');
+
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
 ```
