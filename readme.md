@@ -1288,4 +1288,13 @@ WHERE client_id EXISTS (
 	WHERE client_id = c.client_id
 )
 
+-- Find the products that have never been ordered (Optimized query than NOT IN)
+SELECT * 
+FROM products p
+WHERE NOT EXISTS (
+	SELECT product_id
+	FROM order_items
+	WHERE productd_id = p.product_id
+)
+
 ```
