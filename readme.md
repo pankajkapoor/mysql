@@ -1219,3 +1219,60 @@ PREPARE stmt FROM @sql;
 EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
 ```
+
+
+# Subqueries
+```mysql
+-- USING ALL KEYWORD
+SELECT * FROM invoices
+WHERE invoice_total > ALL (
+	SELECT invoice_total 
+	FROM invoices
+	WHERE client_id = 3
+)
+
+
+SELECT * FROM invoices
+WHERE invoice_total > (
+	SELECT MAX(invoice_total) 
+	FROM invoices
+	WHERE client_id = 3
+)
+
+
+-- select clients with	at least two invoices
+-- USING ANY KEYWORD
+SELECT * FROM clients
+WHERE client_id = ANY (
+	SELECT client_id FROM invoices
+	GROUP BY client_id
+	HAVING COUNT(*) >= 2
+)
+
+
+SELECT * FROM clients
+WHERE client_id IN (
+	SELECT client_id FROM invoices
+	GROUP BY client_id
+	HAVING COUNT(*) >= 2
+)
+```
+
+# Correlated Subqueries
+```mysql
+-- select employees whose salary is above the average in their office
+
+
+
+-- for each employee
+--		calculate the avg salary for employee.office
+--      return the employee if salary > avg
+
+SELECT * FROM employees e
+WHERE salary > (
+	SELECT AVG(salary)
+	FROM employees
+	WHERE office_id = e.office_id
+)
+
+```
