@@ -1263,16 +1263,29 @@ WHERE client_id IN (
 -- select employees whose salary is above the average in their office
 
 
-
 -- for each employee
 --		calculate the avg salary for employee.office
 --      return the employee if salary > avg
-
 SELECT * FROM employees e
 WHERE salary > (
 	SELECT AVG(salary)
 	FROM employees
 	WHERE office_id = e.office_id
+)
+
+-- select clients that have an invoice
+SELECT * FROM clients
+WHERE client_id IN (
+	SELECT DISTINCT client_id
+	FROM invoices
+)
+
+-- using EXISTS which is much fater than the IN clause
+SELECT * FROM clients c
+WHERE client_id EXISTS (
+	SELECT client_id
+	FROM invoices
+	WHERE client_id = c.client_id
 )
 
 ```
