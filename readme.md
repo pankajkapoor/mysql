@@ -572,6 +572,8 @@ SELECT 1 /*! + 2 */ ;
 ```mysql
 -- 02 Creating an index
 
+ANALYZE TABLE test;
+
 USE scratch;
 DROP TABLE IF EXISTS test;
 CREATE TABLE test (
