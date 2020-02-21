@@ -574,6 +574,17 @@ SELECT 1 /*! + 2 */ ;
 
 ANALYZE TABLE test;
 
+-- PREFIX INDEX
+CREATE INDEX idx_lastname ON customers (last_name(20));
+
+-- How to get the right length
+SELECT 
+	COUNT(DISTINCT LEFT(last_name,1)),
+	COUNT(DISTINCT LEFT(last_name,5)),
+	COUNT(DISTINCT LEFT(last_name,10))
+FROM customers;	
+
+
 USE scratch;
 DROP TABLE IF EXISTS test;
 CREATE TABLE test (
