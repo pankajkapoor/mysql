@@ -1330,3 +1330,13 @@ DELIMITER ;
 SHOW EVENTS;
 DROP EVENT IF EXISTS yearly_delete_stale_audit_rows;
 ```
+# Normalization
+
+### 1NF
+Each cell should have a single value and we cannot have repeated columns.
+
+### 2NF
+Every table should describe one entity, and every column in that table should describe that entity.
+
+### 3NF
+A column in a table should not be derived from other columns.
