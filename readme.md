@@ -890,6 +890,31 @@ DELIMITER ;
 CALL str_count();
 
 DROP PROCEDURE IF EXISTS str_count;
+
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `vivek`()
+BEGIN
+      SET @cnt  = (select MAX(JSON_LENGTH(industry_expertise->>"$.ie_sme_corporate.consulting_domains")) from consultants where industry_expertise->>"$.ie_sme_corporate.consulting_opted" = 1);
+      SET @query ="SELECT industry_expertise->'$.ie_sme_corporate.consulting_domains[0]' as  a from consultants where industry_expertise->>'$.ie_sme_corporate.consulting_opted' = 1";
+      
+       
+      SET @a = 0;
+      simple_loop: LOOP
+         SET @a=@a+1;
+         SET @query2 =CONCAT(" UNION SELECT industry_expertise->'$.ie_sme_corporate.consulting_domains[",@a,"]' as  a from consultants  where industry_expertise->>'$.ie_sme_corporate.consulting_opted' = 1");
+         SET @query = CONCAT(@query,@query2);
+         IF @a > @cnt-1 THEN
+            LEAVE simple_loop;
+         END IF;
+   END LOOP simple_loop;
+   PREPARE dynquery FROM @query;
+     EXECUTE dynquery;
+     DEALLOCATE PREPARE dynquery;
+END$$
+DELIMITER ;
+
+
 ```
 
 # Transactions
